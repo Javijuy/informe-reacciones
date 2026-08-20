@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Analisis de reacciones y comentarios">
+<title>Reacciones Morone</title>
+<style>
+  :root{
+    --page:#EFEDEA; --card:#FFFFFF;
+    --ink:#111111; --ink-2:#3D3A37; --ink-muted:#726D68;
+    --rule:#E2DFDB; --rule-soft:#EFECE8;
+    --red:#D0393E; --red-deep:#A82B30; --red-tint:#FBEFEF;
+    --haha:#D0393E; --like:#0F8A73; --love:#7059BE; --otros:#8C9299;
+    --warn:#9A5B00;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--page);color:var(--ink);
+    font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px 80px;
+    display:flex;flex-direction:column;gap:26px;}
+  .wrap > *{min-width:0;}
+  h1,h2,h3,.hv{font-family:"Arial Black","Segoe UI Black",Impact,sans-serif;}
+
+  header{background:var(--ink);color:#fff;padding:44px 24px 38px;}
+  .hd{max-width:1040px;margin:0 auto;padding:0 16px;}
+  .kicker{font-size:12px;letter-spacing:2.4px;text-transform:uppercase;color:#C4BEB8;margin:0 0 14px;}
+  header h1{font-size:clamp(30px,5.2vw,54px);line-height:1.03;margin:0;letter-spacing:-1.2px;
+    text-wrap:balance;}
+  header h1 em{font-style:normal;color:var(--red);}
+  .hd-sub{display:flex;flex-wrap:wrap;gap:8px 26px;margin:20px 0 0;font-size:13.5px;color:#C4BEB8;}
+  .hd-sub b{color:#fff;font-weight:700;}
+
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:2px;
+    background:var(--rule);border:1px solid var(--rule);}
+  .tile{background:var(--card);padding:22px 20px;}
+  .tile .n{font-family:"Arial Black","Segoe UI Black",Impact,sans-serif;font-size:38px;line-height:1;
+    font-variant-numeric:tabular-nums;letter-spacing:-1px;}
+  .tile .n.acc{color:var(--red);} .tile .n.pos{color:var(--like);}
+  .tile .l{font-size:11.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--ink-muted);
+    margin-top:9px;font-weight:700;}
+  .tile .h{font-size:12.5px;color:var(--ink-muted);margin-top:7px;line-height:1.45;}
+
+  .box{background:var(--card);border:1px solid var(--rule);padding:26px 24px;}
+  .box > h2{font-size:19px;margin:0 0 6px;letter-spacing:-.3px;}
+  .box .sub{margin:0 0 22px;font-size:13.5px;color:var(--ink-muted);max-width:74ch;}
+
+  /* ---- barras apiladas ---- */
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 20px;padding:0;list-style:none;}
+  .legend li{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-2);}
+  .sw{width:13px;height:13px;flex:none;}
+  .sw.haha{background:var(--haha);} .sw.like{background:var(--like);}
+  .sw.love{background:var(--love);} .sw.otros{background:var(--otros);}
+
+  .rows{display:flex;flex-direction:column;gap:16px;}
+  .row-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+    font-size:13.5px;margin-bottom:5px;}
+  .row-h .name{font-weight:700;color:var(--ink);}
+  .row-h .tot{color:var(--ink-muted);font-variant-numeric:tabular-nums;flex:none;font-size:12.5px;}
+  .bar{display:flex;height:26px;gap:2px;background:var(--rule-soft);}
+  .seg{height:100%;position:relative;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;overflow:hidden;}
+  .seg.haha{background:var(--haha);} .seg.like{background:var(--like);}
+  .seg.love{background:var(--love);} .seg.otros{background:var(--otros);}
+  .row-f{margin-top:6px;font-size:12px;color:var(--ink-muted);}
+  .row-f b{color:var(--red-deep);font-variant-numeric:tabular-nums;}
+  .row-f b.ok{color:var(--like);}
+  .row.clean .row-f b{color:var(--like);}
+
+  /* ---- tablas ---- */
+  .scroll{overflow-x:auto;}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:520px;}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--rule-soft);text-align:left;vertical-align:top;}
+  th{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-muted);
+    font-weight:700;border-bottom:2px solid var(--rule);}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;}
+  td.num{font-weight:700;}
+  td.cost{color:var(--red-deep);font-weight:700;}
+  tr.easy td.cost{color:var(--like);}
+
+  /* ---- fichas por medio ---- */
+  .medio{background:var(--card);border:1px solid var(--rule);padding:24px 26px;
+    display:flex;flex-direction:column;gap:14px;}
+  .medio.alerta{border-left:6px solid var(--red);}
+  .medio-top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:baseline;}
+  .medio h3{font-size:19px;margin:0;letter-spacing:-.3px;}
+  .pill{font-size:10.5px;letter-spacing:1.1px;text-transform:uppercase;font-weight:700;
+    color:#fff;background:var(--otros);padding:4px 9px;flex:none;}
+  .pill.mal{background:var(--red);} .pill.bien{background:var(--like);}
+  .pill.medio{background:var(--warn);}
+  .medio p{margin:0;font-size:14.5px;color:var(--ink-2);max-width:76ch;}
+  .medio .met{font-size:12.5px;color:var(--ink-muted);font-variant-numeric:tabular-nums;}
+  .quotes{margin:0;padding:0 0 0 16px;border-left:3px solid var(--rule);
+    display:flex;flex-direction:column;gap:7px;}
+  .quotes li{list-style:none;font-size:13.5px;color:var(--ink-2);font-style:italic;}
+  .medio h3 a.ir{color:inherit;text-decoration:none;display:inline-flex;
+    align-items:baseline;gap:8px;border-bottom:2px solid transparent;}
+  .medio h3 a.ir:hover,.medio h3 a.ir:focus-visible{color:var(--red-deep);
+    border-bottom-color:var(--red-deep);}
+  .medio h3 .ext{font-family:"Segoe UI",Arial,sans-serif;font-size:14px;
+    font-weight:400;color:var(--red);flex:none;}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+    white-space:nowrap;}
+
+  .callout{background:#FDF6E7;border-left:4px solid var(--warn);padding:14px 18px;
+    font-size:14px;color:var(--ink-2);}
+  .callout b{color:var(--ink);}
+
+  .cierre{background:var(--ink);color:#D4CFC9;padding:34px 30px;}
+  .cierre h2{color:#fff;font-size:21px;margin:0 0 16px;letter-spacing:-.3px;}
+  .cierre h3{color:var(--red);font-size:14px;margin:20px 0 6px;letter-spacing:.3px;}
+  .cierre p{margin:0 0 12px;max-width:80ch;font-size:15px;}
+  .cierre p:last-child{margin-bottom:0;}
+  .cierre b{color:#fff;}
+
+  .metodo li{font-size:13.5px;color:var(--ink-2);max-width:84ch;margin-bottom:9px;}
+  .metodo ul{margin:0;padding-left:20px;}
+  .sec-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin:14px 0 -8px;
+    border-bottom:3px solid var(--ink);padding-bottom:10px;}
+  .sec-head h2{font-size:24px;letter-spacing:-.4px;}
+  .sec-note{font-size:13px;color:var(--ink-muted);}
+  a:focus-visible{outline:2px solid var(--red-deep);outline-offset:2px;}
+  @media (max-width:620px){
+    .medio,.box{padding:20px 18px;}
+    .seg{font-size:0;}
+  }
+</style>
+</head>
+<body>
+
+
+<header>
+  <div class="hd">
+    <p class="kicker">Reacciones y comentarios · Adriano Morone</p>
+    <h1>El apoyo encabeza en <em>8 de 9 medios</em></h1>
+    <div class="hd-sub">
+      <span><b>9</b> posteos</span>
+      <span><b>9</b> medios</span>
+      <span>Misma entrevista, mismo día</span>
+      <span>Medido el <b>18/08/2026</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tiles">
+    <div class="tile"><div class="n">1.053</div><div class="l">Reacciones</div>
+      <div class="h">Suma de los nueve posteos, en menos de un día.</div></div>
+    <div class="tile"><div class="n pos">65%</div><div class="l">De apoyo</div>
+      <div class="h">685 reacciones entre 👍 me gusta y ❤️ me encanta.</div></div>
+    <div class="tile"><div class="n pos">8 de 9</div><div class="l">Con 👍 al frente</div>
+      <div class="h">El "me gusta" es la reacción principal en todos menos uno.</div></div>
+    <div class="tile"><div class="n">330</div><div class="l">Comentarios</div>
+      <div class="h">Cobertura simultánea en nueve medios el mismo día.</div></div>
+  </div>
+
+  <div class="box">
+    <h2>Composición de reacciones por medio</h2>
+    <p class="sub">Cada barra ordena sus reacciones de mayor a menor, igual que las muestra
+    Facebook. Los medios van ordenados por volumen total.</p>
+    <ul class="legend">
+      <li><span class="sw like"></span>👍 Me gusta</li>
+      <li><span class="sw love"></span>❤️ Me encanta</li>
+      <li><span class="sw haha"></span>😆 Me divierte</li>
+      <li><span class="sw otros"></span>Otras</li>
+    </ul>
+    <div class="rows" id="rows"></div>
+  </div>
+
+  <div class="box">
+    <h2>Qué haría falta para sacar el 😆 del ícono</h2>
+    <p class="sub">Facebook muestra los tres tipos de reacción más votados. Para que el "me divierte"
+    desaparezca de la vista no alcanza con superarlo una vez: hacen falta <b>tres tipos por encima
+    de él</b>. Esta es la cuenta real por posteo.</p>
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Medio</th><th class="num">😆 hoy</th>
+            <th>Tipos que ya lo superan</th><th>Lo que falta subir</th>
+            <th class="num">Reacciones extra</th>
+          </tr>
+        </thead>
+        <tbody id="costo"></tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin:18px 0 0">Limpiar los cinco cuesta <b>551 reacciones nuevas</b>
+    repartidas en tipos específicos. Los dos primeros son gratis; los tres últimos, no.</p>
+  </div>
+
+  <div class="callout">
+    <b>Por qué la cuenta cambió.</b> En la primera lectura calculé que bastaba con un cuarto tipo
+    superando al 😆. Es incorrecto: eso solo lo corre de la segunda a la tercera posición y sigue
+    mostrándose. Para que salga del ícono tienen que quedar tres tipos por encima. Los números de
+    esta tabla son los correctos.
+  </div>
+
+  <div class="sec-head">
+    <h2 style="margin:0;font-size:24px">Medio por medio</h2>
+    <span class="sec-note">El título de cada ficha abre el posteo en Facebook ↗</span>
+  </div>
+
+  <article class="medio alerta">
+    <div class="medio-top"><h3><a class="ir" href="https://www.facebook.com/COSOenvivoOK/videos/1055395913997556/" target="_blank" rel="noopener noreferrer">COSO — reel "Cosas que pasan"<span class="ext" aria-hidden="true">↗</span><span class="sr">Abrir el posteo en Facebook</span></a></h3><span class="pill mal">Crítico</span></div>
+    <p class="met">4,6 mil reproducciones · 110 reacciones · 36 comentarios · 8 compartidos<br>
+      😆 58 · 👍 42 · ❤️ 7 · otras 3</p>
+    <p>El único posteo donde la burla le gana al "me gusta". Es además el de mayor alcance en video
+    del conjunto, así que es el que más gente vio con esa composición a la vista.</p>
+  </article>
+
+  <article class="medio alerta">
+    <div class="medio-top"><h3><a class="ir" href="https://www.facebook.com/61579422305314/posts/122170221338980743/" target="_blank" rel="noopener noreferrer">AQN + Antes Que Nadie<span class="ext" aria-hidden="true">↗</span><span class="sr">Abrir el posteo en Facebook</span></a></h3><span class="pill mal">Crítico</span></div>
+    <p class="met">425 reacciones · 116 comentarios · 24 compartidos<br>
+      👍 205 · 😆 152 · ❤️ 60 · otras 8</p>
+    <p>El posteo de mayor volumen y el de mayor debate. Los comentarios se parten en tres: apoyo
+    al recambio generacional, ataque al radicalismo como bloque, y cuestionamiento a su autonomía
+    respecto de Morales. Este último es el eje que más se repite y el más difícil de contestar.</p>
+    <ul class="quotes">
+      <li>"Representa el recambio generacional que la UCR necesita"</li>
+      <li>"Los radicales ya demostraron que no funcionan, venden y regalan todo"</li>
+      <li>"¿Qué propuesta vas a tener si recibís órdenes de Morales?"</li>
+    </ul>
+  </article>
+
+  <article class="medio alerta">
+    <div class="medio-top"><h3><a class="ir" href="https://www.facebook.com/61578729338352/posts/122177792942957644/" target="_blank" rel="noopener noreferrer">Alto Comedero Informa<span class="ext" aria-hidden="true">↗</span><span class="sr">Abrir el posteo en Facebook</span></a></h3><span class="pill mal">Crítico</span></div>
+    <p class="met">335 reacciones · 151 comentarios · 13 compartidos<br>
+      👍 135 · 😆 113 · ❤️ 82 · otras 5</p>
+    <p>La mayor cantidad de comentarios de todo el conjunto. A diferencia de AQN, acá el eje no es
+    partidario sino de clase: se lo lee como alguien lejano al barrio. También es el posteo con
+    más "me encanta" en términos absolutos, señal de que hay base propia activa.</p>
+    <ul class="quotes">
+      <li>"Otro gato más al poder"</li>
+      <li>"Tiene capacidad, humildad y muy trabajador"</li>
+      <li>"Igual a otros tantos que también tenían buenas propuestas"</li>
+    </ul>
+  </article>
+
+  <article class="medio">
+    <div class="medio-top"><h3><a class="ir" href="https://www.facebook.com/100077572173583/posts/1115730674355995/" target="_blank" rel="noopener noreferrer">San Pedro Ya<span class="ext" aria-hidden="true">↗</span><span class="sr">Abrir el posteo en Facebook</span></a></h3><span class="pill medio">Atención</span></div>
+    <p class="met">98 reacciones · 19 comentarios · 5 compartidos<br>
+      👍 47 · ❤️ 27 · 😆 23 · otras 1</p>
+    <p>Volumen moderado y burla contenida. El eje crítico acá es específico y verificable: le
+    reclaman no conocerle proyectos de su gestión como diputado. Es el cuestionamiento más concreto
+    de todo el relevamiento, y el más fácil de responder con datos.</p>
+  </article>
+
+  <article class="medio">
+    <div class="medio-top"><h3><a class="ir" href="https://www.facebook.com/100044523321272/posts/1971362441024514/" target="_blank" rel="noopener noreferrer">La Voz de Jujuy<span class="ext" aria-hidden="true">↗</span><span class="sr">Abrir el posteo en Facebook</span></a></h3><span class="pill bien">Limpio</span></div>
+    <p class="met">59 reacciones · 7 comentarios · 7 compartidos<br>
+      👍 44 · ❤️ 14 · otras 1</p>
+    <p>Cero "me divierte" y comentarios favorables con hashtags de campaña
+    (#MoroneIntendente2027). Es el mismo contenido que en AQN: la diferencia está en la audiencia
+    de cada página, no en la nota. Sirve como referencia de cómo se ve el posteo cuando la
+    composición sale bien.</p>
+  </article>
+
+  <article class="medio">
+    <div class="medio-top"><h3><a class="ir" href="https://www.facebook.com/share/p/1HSvFH76Zz/" target="_blank" rel="noopener noreferrer">FM Radio Speed 96.7 — Fraile Pintado<span class="ext" aria-hidden="true">↗</span><span class="sr">Abrir el posteo en Facebook</span></a></h3><span class="pill medio">Atención</span></div>
+    <p class="met">17 reacciones · 1 comentario · 1 compartido<br>👍 13 · 😆 3 · ❤️ 1</p>
+    <p>Volumen mínimo. Aparece en la lista solo porque el 😆 está a la vista y sacarlo cuesta siete
+    reacciones.</p>
+  </article>
+
+  <article class="medio">
+    <div class="medio-top"><h3><a class="ir" href="https://www.facebook.com/MonterricoOnLine/videos/1414841817225728/" target="_blank" rel="noopener noreferrer">Monterrico OnLine — reel<span class="ext" aria-hidden="true">↗</span><span class="sr">Abrir el posteo en Facebook</span></a></h3><span class="pill bien">Limpio</span></div>
+    <p class="met">5 reacciones · 👍 4 · 💗 1</p>
+    <p>Publicado con crédito a #MultimediosJujuy, lo que hizo que en la primera lectura figurara
+    con ese nombre. Sin burla, pero con alcance despreciable.</p>
+  </article>
+
+  <article class="medio">
+    <div class="medio-top"><h3>Nuevo Diario y El Expreso de Jujuy</h3><span class="pill">Sin volumen</span></div>
+    <p class="met">Nuevo Diario: 3 reacciones (👍 2 · ❤️ 1) · El Expreso: 1 reacción (👍 1)</p>
+    <p>Publicaron la nota pero no generaron conversación. Cualquier lectura de sentiment sobre
+    ellos sería ruido estadístico.</p>
+  </article>
+
+  <h2 style="margin:14px 0 -8px;font-size:24px;border-bottom:3px solid var(--ink);padding-bottom:10px">
+    Análisis de comentarios</h2>
+
+  <div class="box">
+    <h2>Tono de los comentarios visibles</h2>
+    <p class="sub">Sobre 38 comentarios legibles sin paginar, de 330 totales. Facebook los ordena por
+    "más relevantes", así que esta muestra sobrerrepresenta lo que generó respuestas: no es un censo,
+    es el primer bloque que ve cualquiera que entre al posteo. Y eso es justamente lo que importa.</p>
+    <ul class="legend">
+      <li><span class="sw like"></span>A favor</li>
+      <li><span class="sw haha"></span>En contra</li>
+      <li><span class="sw otros"></span>Sin postura</li>
+    </ul>
+    <div class="rows" id="tono"></div>
+  </div>
+
+  <div class="box">
+    <h2>Los tres reproches, en orden de insistencia</h2>
+    <p class="sub">La crítica no es difusa. Se repite casi textual entre medios y entre personas
+    distintas, lo que indica que ya circula como argumento armado.</p>
+
+    <div style="display:flex;flex-direction:column;gap:22px">
+      <div>
+        <h3 style="margin:0 0 6px;font-size:16px">1 · "Es continuidad disfrazada de renovación"</h3>
+        <p style="margin:0 0 10px;font-size:14.5px;color:var(--ink-2);max-width:78ch">El más frecuente
+        y el más difícil, porque no lo instala la oposición: lo habilita el propio texto de la nota,
+        donde Morone dice formar parte del proyecto que inició Gerardo Morales en 2015. El posteo
+        titula "recambio generacional" y el cuerpo admite continuidad. Los comentaristas leen esa
+        contradicción sin esfuerzo.</p>
+        <ul class="quotes">
+          <li>"¿Qué propuesta vas a tener si recibís órdenes de Morales?"</li>
+          <li>"El radicalismo ya demostró que no sirve, se vende y regala todo"</li>
+          <li>"Literalmente ganó las elecciones pasadas diciendo que iban a seguir haciendo lo mismo
+          de siempre... O sea no tiene propuestas"</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 6px;font-size:16px">2 · "No se le conoce gestión propia"</h3>
+        <p style="margin:0 0 10px;font-size:14.5px;color:var(--ink-2);max-width:78ch">El reproche más
+        concreto de todo el relevamiento, y por eso el más manejable: es una pregunta factual con
+        respuesta factual. Aparece en dos medios distintos, formulado como desafío directo.</p>
+        <ul class="quotes">
+          <li>"Díganme 1 proyecto que presentó esta persona en beneficio de la sociedad"</li>
+          <li>"Si como diputado no se te conoce un proyecto y hablás de propuesta..."</li>
+          <li>"Avísenle que es diputado y que debería saber todas esas cosas ya"</li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 6px;font-size:16px">3 · "No pisa el barrio"</h3>
+        <p style="margin:0 0 10px;font-size:14.5px;color:var(--ink-2);max-width:78ch">El de tono más
+        hostil, y el que alimenta directo al 😆. Se expresa por clase y por ironía territorial, no por
+        argumento político. Es el eje donde el candidato pierde sin discutir, porque no se contesta
+        con una declaración.</p>
+        <ul class="quotes">
+          <li>"Otro gato más al poder"</li>
+          <li>"20 años vivís del curro y no conocés los barrios"</li>
+          <li>"Se lo ve muy seguido por el barrio Luján, Moreno y el Chingus… también por la feria
+          grande del B6 y el Caracol… un pibe de barrio más……. ¿O me equivoco?"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
+    <h2>Tres patrones que no se ven mirando un posteo solo</h2>
+    <div style="display:flex;flex-direction:column;gap:20px">
+
+      <div>
+        <h3 style="margin:0 0 6px;font-size:16px">El apoyo es consigna, la crítica es dato</h3>
+        <p style="margin:0;font-size:14.5px;color:var(--ink-2);max-width:78ch">Los comentarios a favor
+        son casi todos de una línea y sin contenido: "Vamos Adriano", "Morone 2027", "Gente nueva",
+        más hashtags. Los críticos traen fechas, cargos, preguntas concretas y nombres propios. En un
+        hilo público esa asimetría se nota y define quién parece tener razón, aun cuando el conteo dé
+        parejo.</p>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 6px;font-size:16px">El núcleo propio es chico y se repite</h3>
+        <p style="margin:0;font-size:14.5px;color:var(--ink-2);max-width:78ch">Cinco cuentas concentran
+        buena parte del apoyo visible y aparecen en tres o cuatro medios distintos con mensajes casi
+        idénticos, a veces comentando dos veces el mismo posteo. Para quien sigue la campaña es
+        reconocible de inmediato, y refuerza justamente la lectura de armado que se quiere evitar.
+        Conviene ampliar la base de quienes comentan antes que la frecuencia de los mismos.</p>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 6px;font-size:16px">La competencia ya está adentro del hilo</h3>
+        <p style="margin:0;font-size:14.5px;color:var(--ink-2);max-width:78ch">En Alto Comedero aparece
+        un "La libertad avanza" suelto como respuesta al posteo. El enojo antirradical que expresan
+        varios comentarios no queda flotando: tiene destinatario. Es un dato de posicionamiento, no un
+        insulto más.</p>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="cierre">
+    <h2>Lectura</h2>
+    <p>Nueve medios levantaron la misma entrevista el mismo día: la distribución funcionó. Y la
+    recepción general acompaña, con <b>dos de cada tres reacciones de apoyo</b> y el 👍 encabezando
+    en ocho de los nueve posteos.</p>
+    <p>El punto a trabajar está <b>concentrado, no extendido</b>. Tres posteos —AQN, Alto Comedero y
+    COSO— reúnen el 92% de los "me divierte" del conjunto, y son justamente los tres de mayor
+    alcance. Las páginas chicas salen limpias en buena medida porque casi nadie las vio.</p>
+
+    <h3>Lo que no haría</h3>
+    <p>Inyectar 246 reacciones en AQN o 128 en COSO. Un pico de 💗 en un posteo político que hoy
+    tiene cero, aparecido un día después, es el patrón que cualquiera identifica como operación. El
+    costo de que se note supera al del ícono que tapa.</p>
+
+    <h3>Lo que sí haría</h3>
+    <p><b>Mover la ventana, no el resultado.</b> El orden de reacciones lo define la velocidad de
+    la primera hora. Si la base propia reacciona antes de que llegue la burla, el 👍 y el ❤️ toman
+    ventaja y el 😆 nunca entra al podio. Es el mismo esfuerzo, aplicado a tiempo, y es genuino.</p>
+    <p><b>Limpiar solo lo barato.</b> FM Radio Speed cuesta 7 reacciones y San Pedro Ya cuesta 24.
+    A esa escala nadie lo nota.</p>
+    <p><b>Atacar el argumento, no el ícono.</b> El 😆 es el resumen visual de tres reproches
+    concretos: la subordinación a Morales, la ausencia de proyectos propios como diputado y la
+    distancia con el barrio. Los tres son contestables con contenido. Tapado el ícono, esos
+    comentarios siguen ahí.</p>
+    <p><b>Mapear medios por audiencia.</b> La Voz de Jujuy devuelve limpio lo mismo que AQN devuelve
+    hostil. Saber cuál es cuál vale más que cualquier corrección posterior.</p>
+  </div>
+
+  <div class="box metodo">
+    <h2>Metodología y límites</h2>
+    <ul>
+      <li><b>Fuente.</b> Lectura directa del DOM público de cada posteo el 18/08/2026, entre 13 y 18
+      horas después de publicados. El desglose por tipo sale de las etiquetas de accesibilidad de la
+      barra de reacciones.</li>
+      <li><b>Los dos reels</b> no exponen datos en su URL corta: hubo que resolver la URL canónica de
+      video de cada uno para acceder al desglose. En COSO el total subió de 107 a 110 entre dos
+      lecturas con minutos de diferencia; el desglose corresponde a la primera.</li>
+      <li><b>"Otras"</b> agrupa los tipos fuera del podio de tres, que Facebook no detalla en la vista
+      pública. Se calcula por diferencia entre el total y la suma de los tres visibles.</li>
+      <li><b>Comentarios.</b> Los temas y las citas salen de los comentarios visibles sin paginar,
+      entre 10 y 30 por posteo. Sirven para leer ejes, no para contar proporciones.</li>
+      <li><b>Sin datos.</b> Nuevo Diario y El Expreso de Jujuy no exponen conteo de comentarios ni
+      compartidos. Monterrico OnLine tampoco.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+const M = [
+  {n:"AQN + Antes Que Nadie", tot:425, haha:152, like:205, love:60, otros:8},
+  {n:"Alto Comedero Informa", tot:335, haha:113, like:135, love:82, otros:5},
+  {n:"COSO (reel)",           tot:110, haha:58,  like:42,  love:7,  otros:3},
+  {n:"San Pedro Ya",          tot:98,  haha:23,  like:47,  love:27, otros:1},
+  {n:"La Voz de Jujuy",       tot:59,  haha:0,   like:44,  love:14, otros:1},
+  {n:"FM Radio Speed",        tot:17,  haha:3,   like:13,  love:1,  otros:0},
+  {n:"Monterrico OnLine",     tot:5,   haha:0,   like:4,   love:0,  otros:1},
+  {n:"Nuevo Diario",          tot:3,   haha:0,   like:2,   love:1,  otros:0},
+  {n:"El Expreso de Jujuy",   tot:1,   haha:0,   like:1,   love:0,  otros:0}
+];
+
+const COSTO = [
+  {n:"FM Radio Speed",        haha:3,   arriba:"👍 13", falta:"❤️ 1→4 · 💗 0→4",        extra:7},
+  {n:"San Pedro Ya",          haha:23,  arriba:"👍 47 · ❤️ 27", falta:"💗 0→24",        extra:24},
+  {n:"COSO (reel)",           haha:58,  arriba:"ninguno", falta:"👍 42→59 · ❤️ 7→59 · 💗 0→59", extra:128},
+  {n:"Alto Comedero Informa", haha:113, arriba:"👍 135", falta:"❤️ 82→114 · 💗 0→114",  extra:146},
+  {n:"AQN + Antes Que Nadie", haha:152, arriba:"👍 205", falta:"❤️ 60→153 · 💗 0→153",  extra:246}
+];
+
+const fmt = n => n.toLocaleString("es-AR");
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const MAX = Math.max(...M.map(m => m.tot));
+
+const LAB = {haha:"😆", like:"👍", love:"❤️", otros:"otras"};
+
+document.getElementById("rows").innerHTML = M.map(m => {
+  const scale = m.tot / MAX;
+  const apoyo = m.tot ? ((m.like + m.love) / m.tot * 100) : 0;
+  const pctH  = m.tot ? (m.haha / m.tot * 100) : 0;
+
+  // cada barra se ordena de mayor a menor, como las muestra Facebook
+  const segs = [["like",m.like],["love",m.love],["haha",m.haha],["otros",m.otros]]
+    .filter(s => s[1] > 0)
+    .sort((a, b) => b[1] - a[1]);
+
+  const lider = segs[0];
+  const bar = segs.map(([cls, v]) =>
+    `<div class="seg ${cls}" style="flex:${v} 0 0" title="${LAB[cls]} ${fmt(v)}">${
+      v / m.tot > .10 ? fmt(v) : ""}</div>`).join("");
+
+  const pie = m.haha
+    ? `${LAB[lider[0]]} encabeza con <b class="ok">${fmt(lider[1])}</b> · apoyo <b class="ok">${
+        apoyo.toFixed(0)}%</b> · 😆 <b>${fmt(m.haha)}</b> (${pctH.toFixed(0)}%)`
+    : `${LAB[lider[0]]} encabeza con <b class="ok">${fmt(lider[1])}</b> · apoyo <b class="ok">${
+        apoyo.toFixed(0)}%</b> · sin 😆 a la vista`;
+
+  return `<div class="row">
+    <div class="row-h"><span class="name">${esc(m.n)}</span>
+      <span class="tot">${fmt(m.tot)} ${m.tot === 1 ? "reacción" : "reacciones"}</span></div>
+    <div class="bar" style="width:${(scale * 100).toFixed(1)}%">${bar}</div>
+    <div class="row-f">${pie}</div>
+  </div>`;
+}).join("");
+
+const TONO = [
+  {n:"AQN + Antes Que Nadie", tot:116, vis:10, fav:6, con:4, neu:0},
+  {n:"Alto Comedero Informa", tot:151, vis:9,  fav:4, con:5, neu:0},
+  {n:"San Pedro Ya",          tot:19,  vis:10, fav:6, con:3, neu:1},
+  {n:"La Voz de Jujuy",       tot:7,   vis:6,  fav:5, con:1, neu:0},
+  {n:"COSO (reel)",           tot:36,  vis:2,  fav:0, con:2, neu:0},
+  {n:"FM Radio Speed",        tot:1,   vis:1,  fav:1, con:0, neu:0}
+];
+const MAXV = Math.max(...TONO.map(t => t.vis));
+document.getElementById("tono").innerHTML = TONO.map(t => {
+  const seg = (v, cls) => v > 0
+    ? `<div class="seg ${cls}" style="flex:${v} 0 0">${v}</div>` : "";
+  return `<div class="row">
+    <div class="row-h"><span class="name">${esc(t.n)}</span>
+      <span class="tot">${fmt(t.vis)} visibles de ${fmt(t.tot)}</span></div>
+    <div class="bar" style="width:${(t.vis / MAXV * 100).toFixed(1)}%">
+      ${seg(t.fav,"like")}${seg(t.con,"haha")}${seg(t.neu,"otros")}
+    </div></div>`;
+}).join("");
+
+document.getElementById("costo").innerHTML = COSTO.map(c =>
+  `<tr class="${c.extra <= 24 ? "easy" : ""}">
+    <td>${esc(c.n)}</td>
+    <td class="num">${fmt(c.haha)}</td>
+    <td>${c.arriba}</td>
+    <td>${c.falta}</td>
+    <td class="num cost">+${fmt(c.extra)}</td>
+  </tr>`).join("");
+</script>
+
+</body>
+</html>
